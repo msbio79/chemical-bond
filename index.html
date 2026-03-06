@@ -1,18 +1,20 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>분자 결합 시뮬레이션</title>
+    <title>화학 결합 시뮬레이션</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
     <div class="container">
         <header>
-            <h1>분자 결합 시뮬레이션</h1>
-            <p>원소를 작업 영역으로 드래그하면 결합합니다. 결합 해제: 더블 클릭 (모바일: 빠르게 두 번 탭)</p>
+            <h1>화학 결합 시뮬레이션</h1>
+            <p>원소를 선택하고 붙여보세요. 결합 해제: 더블 클릭 (모바일: 빠르게 두 번 탭)</p>
         </header>
-        
+
         <main>
             <div class="sidebar">
                 <div class="palette-header">
@@ -26,17 +28,17 @@
                     </div>
                 </div>
                 <div class="palette-info">원소를 작업 공간으로 드래그!</div>
-                
+
                 <div class="scale-control">
                     <span>원자 크기</span>
                     <input type="range" id="atom-scale-slider" min="0.5" max="2.0" step="0.1" value="1.0">
                 </div>
-                
+
                 <div class="periodic-table">
                     <!-- 주기 1 -->
                     <div class="element-btn" data-type="H" style="grid-area: 1 / 1;"><span>H</span></div>
                     <div class="element-btn" data-type="He" style="grid-area: 1 / 8;"><span>He</span></div>
-                    
+
                     <!-- 주기 2 -->
                     <div class="element-btn" data-type="Li" style="grid-area: 2 / 1;"><span>Li</span></div>
                     <div class="element-btn" data-type="Be" style="grid-area: 2 / 2;"><span>Be</span></div>
@@ -63,26 +65,27 @@
                 </div>
 
                 <div class="element-details" id="element-details">
-                    <div class="element-details-placeholder">주기율표의 원소를<br>호버해보세요!</div>
+                    <div class="element-details-placeholder">주기율표의 원소를<br>눌러보세요!</div>
                 </div>
 
                 <div class="molecule-list-container">
-                    <h3>분자 목록</h3>
+                    <h3>결합 물질 목록</h3>
                     <ul id="molecule-list">
-                        <li class="empty-state">결합된 분자가 없습니다.</li>
+                        <li class="empty-state">결합된 물질이 없습니다.</li>
                     </ul>
                 </div>
 
                 <button id="clear-btn" class="danger-btn">모두 지우기</button>
             </div>
-            
+
             <div class="workspace-container">
                 <canvas id="workspace"></canvas>
                 <div class="tooltip" id="tooltip"></div>
             </div>
         </main>
     </div>
-    
+
     <script src="script.js"></script>
 </body>
+
 </html>
