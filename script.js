@@ -156,8 +156,17 @@ clearBtn.addEventListener('click', () => {
 // Interaction
 function getMousePos(e) {
     const rect = canvas.getBoundingClientRect();
-    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+    let clientX, clientY;
+    if (e.touches && e.touches.length > 0) {
+        clientX = e.touches[0].clientX;
+        clientY = e.touches[0].clientY;
+    } else if (e.changedTouches && e.changedTouches.length > 0) {
+        clientX = e.changedTouches[0].clientX;
+        clientY = e.changedTouches[0].clientY;
+    } else {
+        clientX = e.clientX;
+        clientY = e.clientY;
+    }
     return {
         x: clientX - rect.left,
         y: clientY - rect.top
@@ -267,8 +276,27 @@ window.addEventListener('mousemove', onMove);
 window.addEventListener('mouseup', onUp);
 canvas.addEventListener('touchstart', (e) => { e.preventDefault(); onDown(e); }, { passive: false });
 window.addEventListener('touchmove', (e) => { if(isDragging) { e.preventDefault(); onMove(e); } }, { passive: false });
-window.addEventListener('touchend', onUp);
+window.addEventListener('touchend', (e) => { onUp(e); });
 canvas.addEventListener('dblclick', onDoubleClick);
+
+// Touch double-tap detection for mobile/tablet (iPad 등)
+let lastTapTime = 0;
+let lastTapPos = { x: 0, y: 0 };
+canvas.addEventListener('touchend', (e) => {
+    const now = Date.now();
+    const pos = getMousePos(e);
+    const dx = pos.x - lastTapPos.x;
+    const dy = pos.y - lastTapPos.y;
+    const dist = Math.sqrt(dx*dx + dy*dy);
+    if (now - lastTapTime < 350 && dist < 50) {
+        // Double tap detected
+        onDoubleClick(e);
+        lastTapTime = 0; // reset so triple tap doesn't trigger again
+    } else {
+        lastTapTime = now;
+        lastTapPos = pos;
+    }
+}, { passive: true });
 
 // Physics Engine constants
 const SPRING_K = 0.05;
